@@ -29,7 +29,7 @@ export default defineNuxtConfig({
   pwa: {
     manifest: {
       name: "AesCore",
-      short_name: "Are",
+      short_name: "AesCore",
       start_url: "/",
       display: "standalone",
       description: "AesCore : Score Smarter Write Better",

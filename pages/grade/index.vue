@@ -600,7 +600,7 @@ Respond strictly in the following **JSON** format. DO NOT! include any extra exp
   }
 
   try {
-    const apiResponse = await fetch('https://closing-daily-perch.ngrok-free.app/api/generate', {
+    const apiResponse = await fetch('https://pleased-especially-flea.ngrok-free.app.app/api/generate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
