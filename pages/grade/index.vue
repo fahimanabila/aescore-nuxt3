@@ -189,6 +189,8 @@ import { ref, onMounted } from 'vue'
 import { toRaw } from 'vue'; // Import toRaw if using Vue 3
 
 import logo from '@/public/icons/logo_aescore.png'
+const apiBaseUrl = useRuntimeConfig().public.apiBaseUrl
+console.log('apibaseurl: '+apiBaseUrl)
 
 const showInstallButton = ref(false);
 let deferredPrompt = null;
@@ -375,7 +377,6 @@ function formatResponse(responseString, title, body, recipient) {
     return null;
   }
 }
-
 
 async function submitEssay() {
   loadingState.value = true;
@@ -598,9 +599,6 @@ Respond strictly in the following **JSON** format. DO NOT! include any extra exp
     `,
     max_token: 300
   }
-
-  const apiBaseUrl = useRuntimeConfig().public.apiBaseUrl
-
   try {
     const apiResponse = await fetch(`${apiBaseUrl}/api/generate`, {
       method: 'POST',
