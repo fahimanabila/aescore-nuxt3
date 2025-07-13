@@ -599,8 +599,10 @@ Respond strictly in the following **JSON** format. DO NOT! include any extra exp
     max_token: 300
   }
 
+  const apiBaseUrl = useRuntimeConfig().public.apiBaseUrl
+
   try {
-    const apiResponse = await fetch('https://pleased-especially-flea.ngrok-free.app.app/api/generate', {
+    const apiResponse = await fetch(`${apiBaseUrl}/api/generate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
