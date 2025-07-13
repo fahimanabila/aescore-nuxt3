@@ -600,7 +600,7 @@ Respond strictly in the following **JSON** format. DO NOT! include any extra exp
     max_token: 300
   }
   try {
-    const apiResponse = await fetch(`${apiBaseUrl}/api/generate`, {
+    const apiResponse = await fetch(`https://e0f448fd914c.ngrok-free.app/api/generate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
