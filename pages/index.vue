@@ -27,7 +27,7 @@
             <button class="hover:text-[#004aad] inline-block align-middle">About </button>
         </NuxtLink>
         <div class="relative group">
-          <button  v-if="showInstallButton" @click="installApp" class="bg-[#c8112e] text-white font-light md:py-2 md:px-4 py-1 px-3 text-[12px] rounded-lg">
+          <button  v-if="showInstallButton" @click="installApp" class="bg-[#c8112e] text-white font-light md:py-2 md:px-4 py-1 px-3 sm:text-sm md:text-[12px] rounded-lg">
             Download App
           </button>
         </div>
@@ -41,7 +41,7 @@
          Polish your essay writing skill with Aescore’s free English Essay scorer with professional feedback.
       </h1>
 
-      <div class="flex flex-wrap justify-center gap-4 text-sm my-10 mb-14">
+      <div class="flex flex-wrap justify-center gap-4 text-sm my-10 md:mb-6 lg:mb-14">
         <div class="flex font-medium items-center gap-2"><span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
