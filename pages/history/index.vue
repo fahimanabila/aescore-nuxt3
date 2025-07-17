@@ -1,7 +1,7 @@
 <template>
   <div class="history-page">
     <div class="fixed max-h-screen inset-0 -z-10">
-      <div class="blob center-blob blur-[100px] bg-gradient-to-br from-[#004aad] to-[#c8112e] animate-move1"></div>
+      <!-- <div class="blob center-blob blur-[100px] bg-gradient-to-br from-[#004aad] to-[#c8112e] animate-move1"></div> -->
     </div>
 
     <!-- Navbar -->
@@ -36,7 +36,7 @@
 
     <!-- Hero Section -->
     <section class="text-center px-4 py-16 max-w-4xl mx-auto">
-      <h1 class="text-4xl md:text-5xl font-bold mb-4 text-black">
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">
         Grading History
       </h1>
       <p class="text-gray-700 mb-8">

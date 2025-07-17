@@ -1,7 +1,7 @@
 <template>
   <div class="max-h-screen text-gray-800">
     <div class="fixed max-h-screen inset-0 -z-10">
-      <div class="blob center-blob blur-[100px] bg-gradient-to-br from-[#004aad] to-[#c8112e] animate-move1"></div>
+      <!-- <div class="blob center-blob blur-[100px] bg-gradient-to-br from-[#004aad] to-[#c8112e] animate-move1"></div> -->
     </div>
 
     <!-- Navbar -->
