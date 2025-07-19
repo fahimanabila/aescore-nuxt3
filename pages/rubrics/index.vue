@@ -44,7 +44,7 @@
         The process began by conducting a comprehensive search in the Scopus database using the keywords “writing AND assessment AND EFL.” To ensure relevance and accessibility, specific inclusion criteria were applied: the documents had to be in English, categorized as journal articles, and open access. This search yielded a total of 761 relevant documents. These articles were then processed using VOSviewer, a bibliometric analysis tool used to extract frequent keywords. From this initial analysis, 79 keywords were identified. To refine the results, the dataset underwent a cleaning process where adjectives, redundant terms, and functional words (such as or, to, in, etc.) were removed. This resulted in a final set of 37 significant keywords, which were used as indicators for developing the assessment rubric.
       </p>
       <section class="text-left px-4 max-w-4xl mx-auto">
-        <p class="italic"> Source: Mrs. VIQI ARDANIAH S.S., M.A. Linguistics, Ph.D. (Airlangga University)</p>
+        <p class="italic text-gray-600"> Source: Mrs. VIQI ARDANIAH S.S., M.A. Linguistics, Ph.D. (Airlangga University)</p>
       </section>
     </section>
     

@@ -49,7 +49,7 @@
       <div class="max-w-3xl mx-auto text-gray-800 font-light text-sm leading-relaxed">
         <div class="history-list">
           <div v-for="(entry, index) in gradingHistory" :key="index" class="bg-white history-item mb-4 p-4 rounded-lg shadow-2xl">
-            <div class="flex justify-between items-center">
+             <div :class="['flex', 'justify-between', 'items-center', entry.timestamp]">
               <div>
                 <h3 class="font-semibold text-black">{{ entry.title }}</h3>
                 <p class="text-gray-600">Recipient: {{ entry.recipient }}</p>
@@ -58,11 +58,12 @@
                 <div class="flex gap-1 my-3">
                   <NuxtLink :to="`/generate/pdf/grading_${entry.timestamp}`"><button class="bg-blue-500 text-white py-1 px-3 rounded">Download PDF</button></NuxtLink>
                   <button @click="exportToCSV(entry.timestamp)" class="bg-green-500 text-white py-1 px-3 rounded">Download CSV</button>
+                  <button @click="deleteRecord(entry.timestamp)" class="bg-red-500 text-white py-1 px-3 rounded">Delete Record</button>
                 </div>
               </div>
               
             </div>
-            <button @click="toggleRubric(index)" class="mt-2 text-[#c8112e]">View Details</button>
+            <button @click="toggleRubric(index)" :class="['mt-2', 'text-[#c8112e]', entry.timestamp]">View Details</button>
             <div class="rubric-details mt-4">
               
               <!-- <ul>
@@ -143,6 +144,36 @@ const activeRubricIndex = ref(null);
 const toggleRubric = (index) => {
   activeRubricIndex.value = activeRubricIndex.value === index ? null : index;
 };
+
+const deleteRecord = (id) => {
+  const keys = Object.keys(localStorage);
+
+  // Filter entries where key starts with "grading_" and contains the id
+  const matchedKeys = keys.filter(key => key.startsWith(`grading_`) && key.includes(id));
+
+  if (matchedKeys.length === 0) {
+    console.error('No data found to delete for the given ID.');
+    return;
+  }
+
+  // Confirmation alert
+  const confirmation = confirm(`Are you sure you want to delete ${matchedKeys.length} record(s) for ID: ${id}? This action cannot be undone.`);
+
+  if (confirmation) {
+    // Remove matched keys from localStorage
+    matchedKeys.forEach(key => {
+      localStorage.removeItem(key);
+      console.log(`Deleted record with key: ${key}`);
+    });
+    // Remove the div with class equal to the id
+    window.location.reload();
+
+    console.log(`Successfully deleted ${matchedKeys.length} record(s) for ID: ${id}`);
+  } else {
+    console.log('Deletion canceled by the user.');
+  }
+};
+
 
 const exportToCSV = (id) => {
   const keys = Object.keys(localStorage);

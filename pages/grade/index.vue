@@ -77,6 +77,20 @@
 
         <!-- Form -->
         <div class="bg-white p-6 rounded-lg shadow-md border mb-6">
+
+          <!-- Recipient Input -->
+            <div class="mb-0">
+              <label class="block font-bold py-1" for="recipient">Your Token</label>
+              <input
+                id="recipient"
+                type="text"
+                v-model="token"
+                class="w-full h-10 p-3 border border-gray-400 rounded resize-none mb-2"
+                placeholder="Type token recieved from Administrator"
+              />
+              <span v-if="errors.token" class="text-red-500 text-sm">{{ errors.token }}</span>
+            </div>
+
           <!-- Recipient Input -->
             <div class="mb-0">
               <label class="block font-bold py-1" for="recipient">Correspondent</label>
@@ -87,6 +101,7 @@
                 class="w-full h-10 p-3 border border-gray-400 rounded resize-none mb-2"
                 placeholder="Type the recipient's name"
               />
+              <span v-if="errors.recipient" class="text-red-500 text-sm">{{ errors.recipient }}</span>
             </div>
 
             <!-- Essay Title Input -->
@@ -99,6 +114,7 @@
                 class="w-full h-10 p-3 border border-gray-400 rounded resize-none mb-2"
                 placeholder="Type your essay title"
               />
+              <span v-if="errors.title" class="text-red-500 text-sm">{{ errors.title }}</span>
             </div>
 
             <!-- Essay Body Input -->
@@ -111,16 +127,17 @@
                 placeholder="Type your essay paragraph"
                 maxlength="24240"
               ></textarea>
+              <span v-if="errors.essay" class="text-red-500 text-sm">{{ errors.essay }}</span>
             </div>
 
           <button
             class="block w-full bg-red-400 hover:bg-red-500 text-white font-semibold py-2 px-4 rounded"
-            @click="submitEssay"
+            @click="submitForm"
           >
             Get your score →
           </button>
 
-          <div class="mt-6 text-center grid-cols-1 gap-1" v-if="responseData">
+          <div class="mt-6 text-center grid-cols-1 gap-1 flex justify-center" v-if="responseData">
               <NuxtLink 
                 v-if="timestampPdf" 
                 :to="`/generate/pdf/grading_${timestampPdf}`"
@@ -149,8 +166,11 @@
       </div>
 
       <div class="max-w-4xl px-4" v-if="responseData">
+        <div v-if="responseData.Total_score === 'Error'" class="text-red-500 text-lg font-bold mb-4">
+          Invalid token. Please try again later.
+        </div>
         <!-- Response Display -->
-        <div class="mx-4">
+         <div v-else class="mx-4">
           <div class="text-3xl font-bold mb-2">Total Score: <span class="text-red-500">{{ responseData.Total_score }}</span></div>
           <div class="mt-4 overflow-x-auto">
             <table class="min-w-full border-collapse border border-gray-300">
@@ -230,57 +250,93 @@ function printPage() {
 const timestampPdf = ref('')
 const loading = ref(true)
 const title = ref('')
+const token = ref('')
 const essay = ref('')
+const errors = ref({});
 const recipient = ref('')
 const responseData = ref(null) // Store the response data
 const loadingState = ref(false);
 const loadingMessage = ref('');
 // Define weights for each rubric criterion
-    const weights = {
-      argumentative: 4,
-      comparison: 2,
-      condition: 3,
-      current_study: 4,
-      difference: 2,
-      motivation: 2,
-      reason: 4,
-      issue: 2,
-      need: 2,
-      organization: 4,
-      form: 4,
-      strategy: 2,
-      combination: 2,
-      topic: 4,
-      review: 4,
-      future_research: 3,
-      limitation: 2,
-      total: 3,
-      grammar: 4,
-      lexical_sophistication: 4,
-      vocabulary: 2,
-      academic: 2,
-      effectiveness: 2,
-      coherence: 3,
-      relation: 3,
-      engagement: 2,
-      reader: 2,
-      syntactic_complexity: 3,
-      education: 2,
-      pedagogical_implication: 2,
-      field: 2,
-      framework: 2,
-      theory: 2,
-      article: 4,
-      information: 2,
-      discourse: 2,
-      genre: 2
-    };
+const weights = {
+  argumentative: 4,
+  comparison: 2,
+  condition: 3,
+  current_study: 4,
+  difference: 2,
+  motivation: 2,
+  reason: 4,
+  issue: 2,
+  need: 2,
+  organization: 4,
+  form: 4,
+  strategy: 2,
+  combination: 2,
+  topic: 4,
+  review: 4,
+  future_research: 3,
+  limitation: 2,
+  total: 3,
+  grammar: 4,
+  lexical_sophistication: 4,
+  vocabulary: 2,
+  academic: 2,
+  effectiveness: 2,
+  coherence: 3,
+  relation: 3,
+  engagement: 2,
+  reader: 2,
+  syntactic_complexity: 3,
+  education: 2,
+  pedagogical_implication: 2,
+  field: 2,
+  framework: 2,
+  theory: 2,
+  article: 4,
+  information: 2,
+  discourse: 2,
+  genre: 2
+};
 
 onMounted(() => {
   setTimeout(() => {
     loading.value = false
   }, 1000)
 })
+
+const validateForm = () => {
+  errors.value = {}; // Clear previous errors
+  let isValid = true;
+
+  if (!token.value) {
+    errors.value.token = 'Token is required.';
+    isValid = false;
+  }
+
+  if (!recipient.value) {
+    errors.value.recipient = 'Recipient name is required.';
+    isValid = false;
+  }
+
+  if (!title.value) {
+    errors.value.title = 'Essay title is required.';
+    isValid = false;
+  }
+
+  if (!essay.value) {
+    errors.value.essay = 'Essay body is required.';
+    isValid = false;
+  }
+
+  return isValid;
+};
+
+const submitForm = () => {
+  if (validateForm()) {
+    // Proceed with form submission
+    submitEssay(); // Call your existing submit function
+  }
+};
 
 function formatResponse(responseString, title, body, recipient) {
   // Clean and parse the response string
@@ -289,10 +345,10 @@ function formatResponse(responseString, title, body, recipient) {
     .trim();
 
   const jsonString = cleanedString.replace(/(\w+):/g, '"$1":');
-  const noTrailingCommas = jsonString.replace(/,(\s*[}\]])/g, '$1');
+  // const noTrailingCommas = jsonString.replace(/,(\s*[}\]])/g, '$1');
 
   try {
-    const jsonResponse = JSON.parse(noTrailingCommas);
+    const jsonResponse = JSON.parse(jsonString);
     
     // Define weights for each rubric criterion
     const weights = {
@@ -381,7 +437,7 @@ function formatResponse(responseString, title, body, recipient) {
 async function submitEssay() {
   loadingState.value = true;
   responseData.value = null; // Clear previous response
-
+  console.log(token.value)
   // Prepare the request body
   const data = {
     model: "llama3.1:8b",
@@ -600,7 +656,7 @@ Respond strictly in the following **JSON** format. DO NOT! include any extra exp
     max_token: 300
   }
   try {
-    const apiResponse = await fetch(`https://170574d44cc7.ngrok-free.app/api/generate`, {
+    const apiResponse = await fetch(`https://${token.value}.ngrok-free.app/api/generate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -626,7 +682,11 @@ Respond strictly in the following **JSON** format. DO NOT! include any extra exp
 
   } catch (error) {
     console.error('Error fetching data:', error);
-    responseData.value = { Total_score: 'Error', Commentary: {} }; // Handle error response
+    if (error.message.includes('Network response was not ok')) {
+      responseData.value = { Total_score: 'Error', Commentary: { message: "Token invalid, please try again later" } }; // Handle token error response
+    } else {
+      responseData.value = { Total_score: 'Error', Commentary: {} }; // Handle other errors
+    }
   } finally {
     loadingState.value = false;
   }
